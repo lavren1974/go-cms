@@ -7,6 +7,12 @@ https://github.com/lavren1974/go-cms
 ## Cli
 
 ```
+go run apps/dev/dev.go
+go build apps/dev/dev.go
+./dev
+```  
+
+```
 go run apps/red/red.go
 go build apps/red/red.go
 ./red

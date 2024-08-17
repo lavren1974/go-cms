@@ -1,7 +1,7 @@
 [app]
-name = "GreenApp"
-port = ":8081"
-theme = "journal"
+name = "DevApp"
+port = ":8080"
+theme = "yeti"
 log_level = "DEBUG"
 
 [database]

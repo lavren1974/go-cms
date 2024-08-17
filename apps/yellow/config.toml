@@ -1,7 +1,7 @@
 [app]
 name = "YellowApp"
-port = ":8081"
-theme = "yeti"
+port = ":8083"
+theme = "darkly"
 log_level = "DEBUG"
 
 [database]
