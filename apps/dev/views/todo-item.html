@@ -1,0 +1,36 @@
+<li id="todo-{{.ID}}" class="{{if .Done}}done{{end}}">
+    <span hx-put="/todos/{{.ID}}/toggle" hx-target="#todo-{{.ID}}" hx-swap="outerHTML">
+        <input type="checkbox" {{if .Done}}checked{{end}}>
+        <span class="todo-title">{{.Title}}</span>
+    </span>
+    <button class="btn btn-primary" hx-delete="/todos/{{.ID}}" hx-target="#todo-{{.ID}}" hx-swap="outerHTML">Delete</button>
+    <button class="btn btn-primary" onclick="editTodo({{.ID}}, '{{.Title}}')">Edit</button>
+
+</li>
+<script>
+    function editTodo(id, currentTitle) {
+        const li = document.getElementById(`todo-${id}`);
+        const titleSpan = li.querySelector('.todo-title');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentTitle;
+        input.onblur = function () {
+            updateTodo(id, this.value);
+        };
+        input.onkeypress = function (e) {
+            if (e.key === 'Enter') {
+                updateTodo(id, this.value);
+            }
+        };
+        titleSpan.replaceWith(input);
+        input.focus();
+    }
+
+    function updateTodo(id, newTitle) {
+        htmx.ajax('PUT', `/todos/${id}`, {
+            target: `#todo-${id}`,
+            swap: 'outerHTML',
+            values: { title: newTitle }
+        });
+    }
+</script>
