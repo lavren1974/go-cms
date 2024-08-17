@@ -36,3 +36,20 @@ go build apps/green/green.go
 https://getbootstrap.com/
 
 https://github.com/thomaspark/bootswatch
+
+https://bootswatch.com/
+
+https://docs.gofiber.io/
+
+
+## tutorials
+
+https://quii.gitbook.io/learn-go-with-tests
+
+https://zetcode.com/all/#go
+
+https://gobyexample.com/
+
+## content
+
+https://www.freecodecamp.org/news/real-time-chat-with-go-fiber-htmx/
