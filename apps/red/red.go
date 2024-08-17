@@ -9,6 +9,9 @@ import (
 	"strings"
 
 	config "go-cms/utils/config"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
 )
 
 func main() {
@@ -44,5 +47,28 @@ func main() {
 	//fmt.Printf("Local Config: %+v\n", localConfig)
 	log.Println(localConfig.App.Name)
 	log.Println(localConfig.App.Port)
+
+	// Initialize template engine
+	engine := html.New("./apps/"+executableName+"/views", ".html")
+
+	// Create a new Fiber app with the template engine
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
+
+	app.Static("/static", "./static")
+
+	// Route to render the index page
+	app.Get("/", func(c *fiber.Ctx) error {
+		appName := localConfig.App.Name
+		return c.Render("index", fiber.Map{
+			"AppName": appName,
+			"Theme":   localConfig.App.Theme,
+		})
+	})
+
+	// Start server on port 3000
+	//log.Fatal(app.Listen(":3001"))
+	log.Fatal(app.Listen(localConfig.App.Port))
 
 }

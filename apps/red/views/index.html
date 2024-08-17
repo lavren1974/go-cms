@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.AppName}}</title>
+    <!-- Bootstrap CSS -->
+    <!-- <link href="/static/vendor/bootstrap-5/5.3.3/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="/static/vendor/bootswatch-5/5.3.3/{{.Theme}}/bootstrap.min.css" rel="stylesheet">
+    
+
+    
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h1>{{.AppName}}</h1>
+                        <h1>{{.Theme}}</h1>
+
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">Welcome to {{.AppName}}!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="/static/vendor/bootstrap-5/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -3,7 +3,8 @@ package utils
 // AppConfig represents the application settings
 type LocalAppConfig struct {
 	Name     string `toml:"name"`
-	Port     int    `toml:"port"`
+	Port     string `toml:"port"`
+	Theme    string `toml:"theme"`
 	LogLevel string `toml:"log_level"`
 }
 

@@ -1,6 +1,7 @@
 [app]
 name = "GreenApp"
-port = 8082
+port = ":8082"
+theme = "yeti"
 log_level = "DEBUG"
 
 [database]

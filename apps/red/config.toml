@@ -1,6 +1,7 @@
 [app]
 name = "RedApp"
-port = 8080
+port = ":8080"
+theme = "yeti"
 log_level = "DEBUG"
 
 [database]
