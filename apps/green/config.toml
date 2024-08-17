@@ -1,0 +1,9 @@
+[app]
+name = "GreenApp"
+log_level = "DEBUG"
+
+[database]
+host = "red-db.local"
+port = 8081
+user = "red_user"
+password = "red_password"
