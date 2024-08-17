@@ -1,5 +1,6 @@
 [app]
 name = "GreenApp"
+port = 8082
 log_level = "DEBUG"
 
 [database]

@@ -23,13 +23,3 @@ go run apps/green/green.go
 go build apps/green/green.go
 ./green
 ```
-
-`go build apps/red/red.go`
-
-`go run apps/yellow/yellow.go`
-
-`go build apps/yellow/yellow.go`
-
-`go run apps/green/green.go` 
-
-`go build apps/green/green.go` 

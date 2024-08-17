@@ -43,5 +43,6 @@ func main() {
 	}
 	//fmt.Printf("Local Config: %+v\n", localConfig)
 	log.Println(localConfig.App.Name)
+	log.Println(localConfig.App.Port)
 
 }

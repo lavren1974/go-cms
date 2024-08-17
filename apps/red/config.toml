@@ -1,5 +1,6 @@
 [app]
 name = "RedApp"
+port = 8080
 log_level = "DEBUG"
 
 [database]
