@@ -3,9 +3,12 @@
         <input type="checkbox" {{if .Done}}checked{{end}}>
         <span class="todo-title">{{.Title}}</span>
     </span>
-    <button class="btn btn-primary" hx-delete="/todos/{{.ID}}" hx-target="#todo-{{.ID}}" hx-swap="outerHTML">Delete</button>
-    <button class="btn btn-primary" onclick="editTodo({{.ID}}, '{{.Title}}')">Edit</button>
+    <button class="btn btn-primary" hx-delete="/todos/{{.ID}}" hx-target="#todo-{{.ID}}"
+        hx-swap="outerHTML">Delete</button>
+    <button class="btn btn-primary" onclick="editTodo({{.ID}}, {{.Title}})">Edit</button>
 
+
+    <button type="submit" class="btn btn-primary">Submit</button>
 </li>
 <script>
     function editTodo(id, currentTitle) {

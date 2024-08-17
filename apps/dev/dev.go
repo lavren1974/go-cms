@@ -13,6 +13,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html/v2"
+
+	"go-cms/apps/dev/blog"
+	"go-cms/apps/dev/book"
 )
 
 type Todo struct {
@@ -65,6 +68,10 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
+
+	// Register routes from different modules
+	book.SetupRoutes(app)
+	blog.SetupRoutes(app)
 
 	// Use logger middleware.
 	app.Use(logger.New())
