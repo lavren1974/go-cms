@@ -1,5 +1,6 @@
 [app]
-name = "GlobalApp"
+name = "GO-CMS"
+version = "v0.1.0"
 log_level = "INFO"
 
 [database]

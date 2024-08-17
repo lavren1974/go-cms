@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"strings"
 
-	"go-cms/utils"
+	config "go-cms/utils/config"
 )
 
 func main() {
@@ -26,20 +26,22 @@ func main() {
 	//fmt.Println("Application Name:", executableName)
 
 	// Load global config
-	globalConfig, err := utils.LoadConfig("./global.toml")
+	globalConfig, err := config.LoadConfigGlobal("./global.toml")
 	if err != nil {
 		log.Fatalf("Error loading global config: %v", err)
 	}
 	fmt.Printf("Global Config: %+v\n", globalConfig)
+	log.Println(globalConfig.App.Name)
+	log.Println(globalConfig.App.Version)
 
 	pathLocalConfig := "./apps/" + executableName + "/config.toml"
 
 	// Load local config
-	localConfig, err := utils.LoadConfig(pathLocalConfig)
+	localConfig, err := config.LoadConfigLocal(pathLocalConfig)
 	if err != nil {
 		log.Fatalf("Error loading local config: %v", err)
 	}
-	fmt.Printf("Local Config: %+v\n", localConfig)
+	//fmt.Printf("Local Config: %+v\n", localConfig)
 	log.Println(localConfig.App.Name)
 
 }
