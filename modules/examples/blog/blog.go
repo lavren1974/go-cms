@@ -12,7 +12,7 @@ import (
 //			c.AbortWithError(500, err)
 //		}
 //	}
-func RegisterRoutes(r *gin.Engine) {
+func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string, cmsVersion string, templateDir string, layoutPath string, layoutName string) {
 	// Load the blog templates
 	// r.LoadHTMLGlob("./modules/blog/templates/*")
 
@@ -24,13 +24,20 @@ func RegisterRoutes(r *gin.Engine) {
 	// })
 
 	r.GET("/blog", func(c *gin.Context) {
+
+		title := appName + " | Blog"
 		render.Render(c,
 			"blog.html",
-			"./modules/blog/templates",
-			"./apps/gin/views/layout.html",
-			"layout.html",
+			templateDir,
+			layoutPath,
+			layoutName,
 			gin.H{
-				"Title": "Blog Page",
+				"AppName":    appName,
+				"Title":      title,
+				"Content":    "Blog Page",
+				"Theme":      theme,
+				"CmsName":    cmsName,
+				"CmsVersion": cmsVersion,
 			})
 	})
 }

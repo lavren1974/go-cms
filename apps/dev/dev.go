@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 	"path/filepath"
@@ -9,23 +10,13 @@ import (
 	"strings"
 
 	config "go-cms/utils/config"
+	render "go-cms/utils/render"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/template/html/v2"
+	"github.com/gin-gonic/gin"
 
-	"go-cms/apps/dev/blog"
-	"go-cms/apps/dev/book"
+	"go-cms/modules/examples/blog"
+	"go-cms/modules/examples/book"
 )
-
-type Todo struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Done  bool   `json:"done"`
-}
-
-var todos []Todo
-var idCounter int
 
 func main() {
 
@@ -47,8 +38,8 @@ func main() {
 		log.Fatalf("Error loading global config: %v", err)
 	}
 	fmt.Printf("Global Config: %+v\n", globalConfig)
-	log.Println(globalConfig.App.Name)
-	log.Println(globalConfig.App.Version)
+	log.Println(globalConfig.Cms.Name)
+	log.Println(globalConfig.Cms.Version)
 
 	pathLocalConfig := "./apps/" + executableName + "/config.toml"
 
@@ -61,106 +52,78 @@ func main() {
 	log.Println(localConfig.App.Name)
 	log.Println(localConfig.App.Port)
 
-	// Initialize template engine
-	engine := html.New("./apps/"+executableName+"/views", ".html")
+	// Initialize the Gin router
+	r := gin.Default()
 
-	// Create a new Fiber app with the template engine
-	app := fiber.New(fiber.Config{
-		Views:       engine,
-		ViewsLayout: "layout", // Default layout to be used for all templates
+	// Load HTML files for templates
+	//r.LoadHTMLGlob("./apps/gin/templates/*")
+
+	pathViewsHtml := "./apps/" + executableName + "/views/*.html"
+	pathViews := "./apps/" + executableName + "/views"
+	pathPublic := "./apps/" + executableName + "/public"
+	pathLayout := "./apps/" + executableName + "/views/layout.html"
+	nameLayout := "layout.html"
+
+	// Load templates from multiple directories
+	tmpl := template.Must(template.ParseGlob(pathViewsHtml))
+	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/book/templates/*.html"))
+	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/blog/templates/*.html"))
+
+	// Load HTML templates, including the base layout
+	//  r.SetHTMLTemplate(template.Must(template.ParseGlob("layouts/*.html")).
+	//  AddParseTree("book.html", template.Must(template.New("book.html").ParseFiles(filepath.Join("book/templates", "book.html")))).
+	//  AddParseTree("blog.html", template.Must(template.New("blog.html").ParseFiles(filepath.Join("blog/templates", "blog.html")))))
+
+	// Set the templates in the Gin engine
+	r.SetHTMLTemplate(tmpl)
+
+	// Serve static files from the 'static' directory
+	r.Static("/static", "./static")
+	r.Static("/public", pathPublic)
+
+	// Define a route for the index page
+	// r.GET("/", func(c *gin.Context) {
+	// 	// Pass the application name to the template
+	// 	c.HTML(http.StatusOK, "index.html", gin.H{
+	// 		"AppName": "Gin Bootstrap App!!!!",
+	// 	})
+	// })
+
+	r.GET("/", func(c *gin.Context) {
+		render.Render(c,
+			"index.html",
+			pathViews,
+			pathLayout,
+			nameLayout,
+			gin.H{
+				"AppName":    localConfig.App.Name,
+				"Title":      localConfig.App.Name,
+				"Theme":      localConfig.App.Theme,
+				"CmsName":    globalConfig.Cms.Name,
+				"CmsVersion": globalConfig.Cms.Version,
+			})
 	})
 
-	// Register routes from different modules
-	book.RegisterRoutes(app)
-	blog.SetupRoutes(app)
+	// Register routes from the blog module
+	blog.RegisterRoutes(r,
+		localConfig.App.Name,
+		localConfig.App.Theme,
+		globalConfig.Cms.Name,
+		globalConfig.Cms.Version,
+		"./modules/examples/blog/templates",
+		pathLayout,
+		nameLayout)
 
-	// Use logger middleware.
-	app.Use(logger.New())
+	book.RegisterRoutes(r,
+		localConfig.App.Name,
+		localConfig.App.Theme,
+		globalConfig.Cms.Name,
+		globalConfig.Cms.Version,
+		"./modules/examples/book/templates",
+		pathLayout,
+		nameLayout)
 
-	app.Static("/static", "./static")
-
-	// Route to render the index page
-	app.Get("/", func(c *fiber.Ctx) error {
-		appName := localConfig.App.Name
-		return c.Render("index", fiber.Map{
-			"AppName": appName,
-			"Theme":   localConfig.App.Theme,
-			"Todos":   todos,
-		})
-	})
-
-	app.Get("/todos", func(c *fiber.Ctx) error {
-		return c.Render("todo-list", fiber.Map{
-			"Todos": todos,
-		})
-	})
-
-	app.Post("/todos", func(c *fiber.Ctx) error {
-		title := c.FormValue("title")
-		if title == "" {
-			return c.Status(fiber.StatusBadRequest).SendString("Title cannot be empty")
-		}
-		idCounter++
-		newTodo := Todo{ID: idCounter, Title: title, Done: false}
-		todos = append(todos, newTodo)
-		return c.Render("todo-item", newTodo)
-	})
-
-	app.Put("/todos/:id/toggle", func(c *fiber.Ctx) error {
-		id, err := c.ParamsInt("id")
-		if err != nil {
-			return c.Status(fiber.StatusBadRequest).SendString("Invalid ID")
-		}
-
-		for i := range todos {
-			if todos[i].ID == id {
-				todos[i].Done = !todos[i].Done
-				return c.Render("todo-item", todos[i])
-			}
-		}
-
-		return c.Status(fiber.StatusNotFound).SendString("Todo not found")
-	})
-
-	app.Delete("/todos/:id", func(c *fiber.Ctx) error {
-		id, err := c.ParamsInt("id")
-		if err != nil {
-			return c.Status(fiber.StatusBadRequest).SendString("Invalid ID")
-		}
-
-		for i := range todos {
-			if todos[i].ID == id {
-				todos = append(todos[:i], todos[i+1:]...)
-				return c.SendStatus(fiber.StatusOK)
-			}
-		}
-
-		return c.Status(fiber.StatusNotFound).SendString("Todo not found")
-	})
-
-	app.Put("/todos/:id", func(c *fiber.Ctx) error {
-		id, err := c.ParamsInt("id")
-		if err != nil {
-			return c.Status(fiber.StatusBadRequest).SendString("Invalid ID")
-		}
-
-		title := c.FormValue("title")
-		if title == "" {
-			return c.Status(fiber.StatusBadRequest).SendString("Title cannot be empty")
-		}
-
-		for i := range todos {
-			if todos[i].ID == id {
-				todos[i].Title = title
-				return c.Render("todo-item", todos[i])
-			}
-		}
-
-		return c.Status(fiber.StatusNotFound).SendString("Todo not found")
-	})
-
-	// Start server on port 3000
-	//log.Fatal(app.Listen(":3001"))
-	log.Fatal(app.Listen(localConfig.App.Port))
+	// Start the web server on port 8080
+	r.Run(localConfig.App.Port)
 
 }

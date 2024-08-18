@@ -17,6 +17,6 @@ type GlobalDatabaseConfig struct {
 
 // Config represents the overall structure of the config files
 type GlobalConfig struct {
-	App      GlobalAppConfig      `toml:"app"`
+	Cms      GlobalAppConfig      `toml:"cms"`
 	Database GlobalDatabaseConfig `toml:"database"`
 }

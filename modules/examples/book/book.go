@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(r *gin.Engine) {
+func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string, cmsVersion string, templateDir string, layoutPath string, layoutName string) {
 	// // Load the book templates
 	// r.LoadHTMLGlob("./modules/book/templates/*")
 
@@ -18,13 +18,20 @@ func RegisterRoutes(r *gin.Engine) {
 	// })
 
 	r.GET("/book", func(c *gin.Context) {
+
+		title := appName + " | Book"
 		render.Render(c,
 			"book.html",
-			"./modules/book/templates",
-			"./apps/gin/views/layout.html",
-			"layout.html",
+			templateDir,
+			layoutPath,
+			layoutName,
 			gin.H{
-				"Title": "Book Page",
+				"AppName":    appName,
+				"Title":      title,
+				"Content":    "Book Page",
+				"Theme":      theme,
+				"CmsName":    cmsName,
+				"CmsVersion": cmsVersion,
 			})
 	})
 }
