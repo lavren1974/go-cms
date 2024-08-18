@@ -16,6 +16,7 @@ import (
 
 	"go-cms/modules/examples/blog"
 	"go-cms/modules/examples/book"
+	"go-cms/modules/examples/todo"
 )
 
 func main() {
@@ -68,6 +69,7 @@ func main() {
 	tmpl := template.Must(template.ParseGlob(pathViewsHtml))
 	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/book/templates/*.html"))
 	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/blog/templates/*.html"))
+	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/todo/templates/*.html"))
 
 	// Load HTML templates, including the base layout
 	//  r.SetHTMLTemplate(template.Must(template.ParseGlob("layouts/*.html")).
@@ -120,6 +122,15 @@ func main() {
 		globalConfig.Cms.Name,
 		globalConfig.Cms.Version,
 		"./modules/examples/book/templates",
+		pathLayout,
+		nameLayout)
+
+	todo.RegisterRoutes(r,
+		localConfig.App.Name,
+		localConfig.App.Theme,
+		globalConfig.Cms.Name,
+		globalConfig.Cms.Version,
+		"./modules/examples/todo/templates",
 		pathLayout,
 		nameLayout)
 
