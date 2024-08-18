@@ -1,6 +1,6 @@
 [cms]
 name = "GO-CMS"
-version = "v0.6.2"
+version = "v0.7.0"
 log_level = "INFO"
 
 [database]
