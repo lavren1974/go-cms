@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title}}</title>
-    <link rel="icon" href="public/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <!-- <link href="/static/vendor/bootstrap-5/5.3.3/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="/static/vendor/bootswatch-5/5.3.3/{{.Theme}}/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
         <div class="container">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
-                    <img src="public/img/logo.png" alt="Logo" style="height: 50px;">
+                    <img src="/public/img/logo.png" alt="Logo" style="height: 50px;">
                     <h1 class="ms-3">{{ .AppName }}</h1>
                 </div>
                 <nav>
@@ -22,6 +22,7 @@
                         <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="/book">Book</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="/blog">Blog</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="/todos">Todos</a></li>
                     </ul>
                 </nav>
             </div>

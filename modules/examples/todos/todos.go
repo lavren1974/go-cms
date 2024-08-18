@@ -51,7 +51,7 @@ func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string,
 
 	r.GET("/todos/:id/edit", func(c *gin.Context) {
 
-		title := appName + " | Todos"
+		title := appName + " | Todos | Edit"
 
 		idParam := c.Param("id")
 		id, _ := strconv.Atoi(idParam)
@@ -135,22 +135,25 @@ func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string,
 	r.POST("/todos", func(c *gin.Context) {
 		title := c.PostForm("title")
 		if title == "" {
-			c.HTML(http.StatusBadRequest, "todos.html", gin.H{
-				"error": "Title cannot be empty",
-				"todos": todos,
-			})
-			return
+			// c.HTML(http.StatusBadRequest, "todos.html", gin.H{
+			// 	"error": "Title cannot be empty",
+			// 	"todos": todos,
+			// })
+			// return
+
+			c.Redirect(http.StatusFound, "/todos")
+		} else {
+			todo := Todo{
+				ID:        idCounter,
+				Title:     title,
+				Completed: false,
+			}
+			idCounter++
+			todos = append(todos, todo)
+
+			c.Redirect(http.StatusFound, "/todos")
 		}
 
-		todo := Todo{
-			ID:        idCounter,
-			Title:     title,
-			Completed: false,
-		}
-		idCounter++
-		todos = append(todos, todo)
-
-		c.Redirect(http.StatusFound, "/todos")
 	})
 
 	// Mark a todo as completed
