@@ -1,0 +1,11 @@
+[app]
+name = "GinApp"
+port = ":8080"
+theme = "yeti"
+log_level = "DEBUG"
+
+[database]
+host = "red-db.local"
+port = 8081
+user = "red_user"
+password = "red_password"

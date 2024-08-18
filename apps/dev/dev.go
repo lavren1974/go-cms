@@ -66,11 +66,12 @@ func main() {
 
 	// Create a new Fiber app with the template engine
 	app := fiber.New(fiber.Config{
-		Views: engine,
+		Views:       engine,
+		ViewsLayout: "layout", // Default layout to be used for all templates
 	})
 
 	// Register routes from different modules
-	book.SetupRoutes(app)
+	book.RegisterRoutes(app)
 	blog.SetupRoutes(app)
 
 	// Use logger middleware.

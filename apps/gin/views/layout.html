@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.AppName}}</title>
+    <!-- Bootstrap CSS -->
+    <link href="/static/vendor/bootstrap-5/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="/static/vendor/bootswatch-5/5.3.3/{{.Theme}}/bootstrap.min.css" rel="stylesheet"> -->
+
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a> | <a href="/book">Book</a> | <a href="/blog">Blog</a>
+        </nav>
+    </header>
+
+   
+    <main>
+        {{ template "content" . }}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Application</p>
+    </footer>
+
+
+    <!-- Bootstrap JS -->
+    <script src="/static/vendor/bootstrap-5/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
