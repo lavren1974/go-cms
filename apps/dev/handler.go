@@ -37,13 +37,16 @@ func loadTemplates(appName string) (*template.Template, error) {
 
 	tmpl := template.Must(template.ParseGlob(pathViewsHtml))
 
-	moduleDirs := []string{
-		"./modules/examples/book/templates/*.html",
-		"./modules/examples/blog/templates/*.html",
-		"./modules/examples/todos/templates/*.html",
-	}
+	// -----------------------------------------MODULES ADD-----------------------------------------
+	// -----------------------------------------MODULES ADD-----------------------------------------
+	// -----------------------------------------MODULES ADD-----------------------------------------
+	var moduleDirs []string
+	moduleDirs = append(moduleDirs, book.TemplateDir)
+	moduleDirs = append(moduleDirs, blog.TemplateDir)
+	moduleDirs = append(moduleDirs, todos.TemplateDir)
 
 	for _, dir := range moduleDirs {
+		dir = dir + "/*.html"
 		tmpl = template.Must(tmpl.ParseGlob(dir))
 	}
 
@@ -96,6 +99,9 @@ func setupRouter(appName string, globalConfig *config.GlobalConfig, localConfig 
 			})
 	})
 
+	// -----------------------------------------MODULES ADD-----------------------------------------
+	// -----------------------------------------MODULES ADD-----------------------------------------
+	// -----------------------------------------MODULES ADD-----------------------------------------
 	blog.RegisterRoutes(r, moduleParams)
 	book.RegisterRoutes(r, moduleParams)
 	todos.RegisterRoutes(r, moduleParams)

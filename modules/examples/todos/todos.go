@@ -21,9 +21,11 @@ type Todo struct {
 var todos = []Todo{}
 var idCounter = 1
 
+const TemplateDir = "./modules/examples/todos/templates"
+
 func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	templateLayout := structs.TemplateLayout{
-		TemplateDir: "./modules/examples/todos/templates",
+		TemplateDir: TemplateDir,
 		LayoutPath:  p.LayoutPath,
 		LayoutName:  p.LayoutName,
 	}

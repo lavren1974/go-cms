@@ -7,10 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const TemplateDir = "./modules/examples/book/templates"
+
 func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 
 	templateLayout := structs.TemplateLayout{
-		TemplateDir: "./modules/examples/book/templates",
+		TemplateDir: TemplateDir,
 		LayoutPath:  p.LayoutPath,
 		LayoutName:  p.LayoutName,
 	}

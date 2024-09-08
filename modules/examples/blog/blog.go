@@ -14,6 +14,8 @@ import (
 //		}
 //	}
 
+const TemplateDir = "./modules/examples/blog/templates"
+
 func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	// Load the blog templates
 	// r.LoadHTMLGlob("./modules/blog/templates/*")
@@ -26,7 +28,7 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	// })
 
 	templateLayout := structs.TemplateLayout{
-		TemplateDir: "./modules/examples/blog/templates",
+		TemplateDir: TemplateDir,
 		LayoutPath:  p.LayoutPath,
 		LayoutName:  p.LayoutName,
 	}
@@ -40,7 +42,7 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 			gin.H{
 				"AppName":    p.AppName,
 				"Title":      title,
-				"Content":    "Blog Page!!!!!",
+				"Content":    "Blog Page",
 				"Theme":      p.Theme,
 				"CmsName":    p.CmsName,
 				"CmsVersion": p.CmsVersion,
