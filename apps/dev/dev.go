@@ -10,17 +10,31 @@ import (
 
 func main() {
 
-	// Получаем имя приложения, для загрузки локального конфигурационного файла
-	appName := filepath.Base(filepath.Clean(os.Args[0]))
-
-	//fmt.Println("Application Name:", executableName)
-
-	// Убираем расширение из имени
-	if runtime.GOOS == "windows" {
-		appName = strings.TrimSuffix(appName, ".exe")
+	if len(os.Args) == 0 {
+		log.Fatal("No arguments provided")
 	}
-	log.Println(appName)
+
+	// Получаем имя приложения, для загрузки локального конфигурационного файла
+	appName := getAppName()
+
+	log.Printf("Application Name: %s", appName)
+
+	// if err := Handler(appName); err != nil {
+	// 	log.Fatalf("Handler failed: %v", err)
+	// }
 
 	Handler(appName)
 
+}
+
+func getAppName() string {
+	appName := filepath.Base(filepath.Clean(os.Args[0]))
+
+	// Remove the extension if on Windows
+	if runtime.GOOS == "windows" {
+		if ext := filepath.Ext(appName); ext == ".exe" {
+			appName = strings.TrimSuffix(appName, ext)
+		}
+	}
+	return appName
 }

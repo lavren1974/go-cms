@@ -15,50 +15,56 @@ import (
 	"go-cms/modules/examples/todos"
 )
 
-func Handler(appName string) {
-
-	// Load global config
+func loadConfig(appName string) (*config.GlobalConfig, *config.LocalConfig, error) {
 	globalConfig, err := config.LoadConfigGlobal("./global.toml")
 	if err != nil {
-		log.Fatalf("Error loading global config: %v", err)
+		return nil, nil, err
 	}
-	// fmt.Printf("Global Config: %+v\n", globalConfig)
-	// log.Println(globalConfig.Cms.Name)
-	// log.Println(globalConfig.Cms.Version)
 
 	pathLocalConfig := "./apps/" + appName + "/config.toml"
-
-	// Load local config
 	localConfig, err := config.LoadConfigLocal(pathLocalConfig)
 	if err != nil {
-		log.Fatalf("Error loading local config: %v", err)
+		return nil, nil, err
 	}
-	//fmt.Printf("Local Config: %+v\n", localConfig)
-	// log.Println(localConfig.App.Name)
-	// log.Println(localConfig.App.Port)
 
-	// Initialize the Gin router
+	return globalConfig, localConfig, nil
+}
+
+func loadTemplates(appName string) (*template.Template, error) {
+
+	log.Println(appName)
+	pathViewsHtml := "./apps/" + appName + "/views/*.html"
+
+	tmpl := template.Must(template.ParseGlob(pathViewsHtml))
+
+	moduleDirs := []string{
+		"./modules/examples/book/templates/*.html",
+		"./modules/examples/blog/templates/*.html",
+		"./modules/examples/todos/templates/*.html",
+	}
+
+	for _, dir := range moduleDirs {
+		tmpl = template.Must(tmpl.ParseGlob(dir))
+	}
+
+	return tmpl, nil
+}
+
+func setupRouter(appName string, globalConfig *config.GlobalConfig, localConfig *config.LocalConfig) *gin.Engine {
 	r := gin.Default()
 
-	// Load HTML files for templates
-	//r.LoadHTMLGlob("./apps/gin/templates/*")
-
-	pathViewsHtml := "./apps/" + appName + "/views/*.html"
+	//pathViewsHtml := "./apps/" + localConfig.App.Name + "/views/*.html"
 	pathViews := "./apps/" + appName + "/views"
 	pathPublic := "./apps/" + appName + "/public"
 	pathLayout := "./apps/" + appName + "/views/layout.html"
 	nameLayout := "layout.html"
 
-	// Load templates from multiple directories
-	tmpl := template.Must(template.ParseGlob(pathViewsHtml))
-	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/book/templates/*.html"))
-	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/blog/templates/*.html"))
-	tmpl = template.Must(tmpl.ParseGlob("./modules/examples/todos/templates/*.html"))
-
-	// Set the templates in the Gin engine
+	tmpl, err := loadTemplates(appName)
+	if err != nil {
+		log.Fatalf("Error loading templates: %v", err)
+	}
 	r.SetHTMLTemplate(tmpl)
 
-	// Serve static files from the 'static' directory
 	r.Static("/static", "./static")
 	r.Static("/public", pathPublic)
 
@@ -90,12 +96,21 @@ func Handler(appName string) {
 			})
 	})
 
-	// Register routes from the blog module
 	blog.RegisterRoutes(r, moduleParams)
 	book.RegisterRoutes(r, moduleParams)
 	todos.RegisterRoutes(r, moduleParams)
 
-	// Start the web server on port 8080
+	return r
+}
+
+func Handler(appName string) {
+
+	globalConfig, localConfig, err := loadConfig(appName)
+	if err != nil {
+		log.Fatalf("Error loading config: %v", err)
+	}
+
+	r := setupRouter(appName, globalConfig, localConfig)
 	r.Run(localConfig.App.Port)
 
 }

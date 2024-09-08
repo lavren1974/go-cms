@@ -40,7 +40,7 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 			gin.H{
 				"AppName":    p.AppName,
 				"Title":      title,
-				"Content":    "Blog Page!@!",
+				"Content":    "Blog Page!!!!!",
 				"Theme":      p.Theme,
 				"CmsName":    p.CmsName,
 				"CmsVersion": p.CmsVersion,
