@@ -2,6 +2,8 @@ package todos
 
 import (
 	render "go-cms/utils/render"
+	structs "go-cms/utils/structs"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -19,117 +21,61 @@ type Todo struct {
 var todos = []Todo{}
 var idCounter = 1
 
-func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string, cmsVersion string, templateDir string, layoutPath string, layoutName string) {
-	// // Load the book templates
-	// r.LoadHTMLGlob("./modules/book/templates/*")
-
-	// Define a route for the book page
-	// r.GET("/book", func(c *gin.Context) {
-	// 	c.HTML(http.StatusOK, "book.html", gin.H{
-	// 		"Title": "Book Page",
-	// 	})
-	// })
+func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
+	templateLayout := structs.TemplateLayout{
+		TemplateDir: "./modules/examples/todos/templates",
+		LayoutPath:  p.LayoutPath,
+		LayoutName:  p.LayoutName,
+	}
 
 	r.GET("/todos", func(c *gin.Context) {
 
-		title := appName + " | Todos"
+		title := p.AppName + " | Todos"
 		render.Render(c,
 			"todos.html",
-			templateDir,
-			layoutPath,
-			layoutName,
+			templateLayout,
 			gin.H{
-				"AppName":    appName,
+				"AppName":    p.AppName,
 				"Title":      title,
 				"Content":    "Todos Page",
 				"todos":      todos,
-				"Theme":      theme,
-				"CmsName":    cmsName,
-				"CmsVersion": cmsVersion,
+				"Theme":      p.Theme,
+				"CmsName":    p.CmsName,
+				"CmsVersion": p.CmsVersion,
 			})
 	})
 
 	r.GET("/todos/:id/edit", func(c *gin.Context) {
 
-		title := appName + " | Todos | Edit"
+		title := p.AppName + " | Todos | Edit"
 
 		idParam := c.Param("id")
 		id, _ := strconv.Atoi(idParam)
-		// if err != nil {
-		// 	render.Render(c,
-		// 		"todos.html",
-		// 		templateDir,
-		// 		layoutPath,
-		// 		layoutName,
-		// 		gin.H{
-		// 			"AppName":    appName,
-		// 			"Title":      title,
-		// 			"Content":    "Todos Page",
-		// 			"todos":      todos,
-		// 			"Theme":      theme,
-		// 			"CmsName":    cmsName,
-		// 			"CmsVersion": cmsVersion,
-		// 		})
-		// 	return
-		// }
+
 		for _, todo := range todos {
 			if todo.ID == id {
 				// c.HTML(http.StatusOK, "edit.html", gin.H{
 				// 	"todo": todo,
 				// })
+
 				render.Render(c,
 					"edit.html",
-					templateDir,
-					layoutPath,
-					layoutName,
+					templateLayout,
 					gin.H{
-						"AppName":    appName,
+						"AppName":    p.AppName,
 						"Title":      title,
 						"Content":    "Edit Page",
 						"todo":       todo,
-						"Theme":      theme,
-						"CmsName":    cmsName,
-						"CmsVersion": cmsVersion,
+						"Theme":      p.Theme,
+						"CmsName":    p.CmsName,
+						"CmsVersion": p.CmsVersion,
 					})
+
 				return
 			}
 		}
 
 	})
-
-	// // Show the edit page
-	// r.GET("/todos/:id/edit", func(c *gin.Context) {
-	// 	idParam := c.Param("id")
-	// 	id, err := strconv.Atoi(idParam)
-	// 	if err != nil {
-	// 		c.HTML(http.StatusBadRequest, "todos.html", gin.H{
-	// 			"error": "Invalid ID",
-	// 			"todos": todos,
-	// 		})
-	// 		return
-	// 	}
-
-	// 	for _, todo := range todos {
-	// 		if todo.ID == id {
-	// 			c.HTML(http.StatusOK, "edit.html", gin.H{
-	// 				"todo": todo,
-	// 			})
-	// 			return
-	// 		}
-	// 	}
-
-	// 	c.HTML(http.StatusNotFound, "todos.html", gin.H{
-	// 		"error": "Todo not found",
-	// 		"todos": todos,
-	// 	})
-	// })
-
-	// // Display the list of todos
-	// r.GET("/", func(c *gin.Context) {
-	// 	c.HTML(http.StatusOK, "index.html", gin.H{
-	// 		"todos": todos,
-	// 	})
-	// })
 
 	// Create a new todo
 	r.POST("/todos", func(c *gin.Context) {
@@ -140,14 +86,18 @@ func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string,
 			// 	"todos": todos,
 			// })
 			// return
+			log.Println("post error")
 
 			c.Redirect(http.StatusFound, "/todos")
 		} else {
+
 			todo := Todo{
 				ID:        idCounter,
 				Title:     title,
 				Completed: false,
 			}
+
+			log.Println(todo)
 			idCounter++
 			todos = append(todos, todo)
 

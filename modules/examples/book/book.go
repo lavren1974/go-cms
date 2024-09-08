@@ -2,36 +2,32 @@ package book
 
 import (
 	render "go-cms/utils/render"
+	structs "go-cms/utils/structs"
 
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string, cmsVersion string, templateDir string, layoutPath string, layoutName string) {
-	// // Load the book templates
-	// r.LoadHTMLGlob("./modules/book/templates/*")
+func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 
-	// Define a route for the book page
-	// r.GET("/book", func(c *gin.Context) {
-	// 	c.HTML(http.StatusOK, "book.html", gin.H{
-	// 		"Title": "Book Page",
-	// 	})
-	// })
+	templateLayout := structs.TemplateLayout{
+		TemplateDir: "./modules/examples/book/templates",
+		LayoutPath:  p.LayoutPath,
+		LayoutName:  p.LayoutName,
+	}
 
 	r.GET("/book", func(c *gin.Context) {
 
-		title := appName + " | Book"
+		title := p.AppName + " | Book"
 		render.Render(c,
 			"book.html",
-			templateDir,
-			layoutPath,
-			layoutName,
+			templateLayout,
 			gin.H{
-				"AppName":    appName,
+				"AppName":    p.AppName,
 				"Title":      title,
 				"Content":    "Book Page",
-				"Theme":      theme,
-				"CmsName":    cmsName,
-				"CmsVersion": cmsVersion,
+				"Theme":      p.Theme,
+				"CmsName":    p.CmsName,
+				"CmsVersion": p.CmsVersion,
 			})
 	})
 }

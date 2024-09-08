@@ -2,6 +2,7 @@ package blog
 
 import (
 	render "go-cms/utils/render"
+	structs "go-cms/utils/structs"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +13,8 @@ import (
 //			c.AbortWithError(500, err)
 //		}
 //	}
-func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string, cmsVersion string, templateDir string, layoutPath string, layoutName string) {
+
+func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	// Load the blog templates
 	// r.LoadHTMLGlob("./modules/blog/templates/*")
 
@@ -23,21 +25,25 @@ func RegisterRoutes(r *gin.Engine, appName string, theme string, cmsName string,
 	// 	})
 	// })
 
+	templateLayout := structs.TemplateLayout{
+		TemplateDir: "./modules/examples/blog/templates",
+		LayoutPath:  p.LayoutPath,
+		LayoutName:  p.LayoutName,
+	}
+
 	r.GET("/blog", func(c *gin.Context) {
 
-		title := appName + " | Blog"
+		title := p.AppName + " | Blog"
 		render.Render(c,
 			"blog.html",
-			templateDir,
-			layoutPath,
-			layoutName,
+			templateLayout,
 			gin.H{
-				"AppName":    appName,
+				"AppName":    p.AppName,
 				"Title":      title,
-				"Content":    "Blog Page",
-				"Theme":      theme,
-				"CmsName":    cmsName,
-				"CmsVersion": cmsVersion,
+				"Content":    "Blog Page!@!",
+				"Theme":      p.Theme,
+				"CmsName":    p.CmsName,
+				"CmsVersion": p.CmsVersion,
 			})
 	})
 }
