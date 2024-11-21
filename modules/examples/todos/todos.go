@@ -1,11 +1,12 @@
 package todos
 
 import (
-	render "go-cms/utils/render"
-	structs "go-cms/utils/structs"
 	"log"
 	"net/http"
 	"strconv"
+
+	render "github.com/lavren1974/go-cms/utils/render"
+	structs "github.com/lavren1974/go-cms/utils/structs"
 
 	"github.com/gin-gonic/gin"
 )

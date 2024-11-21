@@ -20,6 +20,7 @@
                 <nav>
                     <ul class="nav">
                         <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="/htmx">Htmx</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="/book">Book</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="/blog">Blog</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="/todos">Todos</a></li>
@@ -33,16 +34,13 @@
     <main class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <h2>Column 1</h2>
-                <p>This is the content of column 1.</p>
+                <h2>Column Left</h2>
             </div>
             <div class="col-md-8">
-                <h2>Column 2</h2>
                 {{ template "content" . }}
             </div>
             <div class="col-md-2">
-                <h2>Column 3</h2>
-                <p>This is the content of column 3.</p>
+                <h2>Column Right</h2>
             </div>
         </div>
     </main>
@@ -54,5 +52,6 @@
     </footer>
 
     <script src="/static/vendor/bootstrap-5/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/htmx-2/2.0.3/htmx.min.js"></script>
 </body>
 </html>

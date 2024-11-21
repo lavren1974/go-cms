@@ -1,8 +1,8 @@
-# go-cms
+# github.com/lavren1974/go-cms
 
 # Links
 
-https://github.com/lavren1974/go-cms
+https://github.com/lavren1974/github.com/lavren1974/go-cms
 
 ## Cli
 

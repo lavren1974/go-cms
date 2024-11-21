@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"path/filepath"
 
-	structs "go-cms/utils/structs"
+	structs "github.com/lavren1974/go-cms/utils/structs"
 
 	"github.com/gin-gonic/gin"
 )

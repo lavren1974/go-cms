@@ -3,10 +3,9 @@
 <div class="container">
   <div class="jumbotron mt-5">
     <h1 class="display-4">{{ .Content }}</h1>
-    <p class="lead">book!</p>
     <!-- Add a target div for HTMX content -->
     <div id="dynamic-content">
-      <button hx-post="/book" hx-target="#dynamic-content" hx-swap="outerHTML" class="btn btn-primary">
+      <button hx-post="/htmx" hx-target="#dynamic-content" hx-swap="outerHTML" class="btn btn-primary">
         Click Me
       </button>
     </div>

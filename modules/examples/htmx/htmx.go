@@ -1,4 +1,4 @@
-package book
+package htmx
 
 import (
 	render "github.com/lavren1974/go-cms/utils/render"
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const TemplateDir = "./modules/examples/book/templates"
+const TemplateDir = "./modules/examples/htmx/templates"
 
 func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 
@@ -17,16 +17,16 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 		LayoutName:  p.LayoutName,
 	}
 
-	r.GET("/book", func(c *gin.Context) {
+	r.GET("/htmx", func(c *gin.Context) {
 
-		title := p.AppName + " | Book"
+		title := p.AppName + " | Htmx"
 		render.Render(c,
-			"book.html",
+			"htmx.html",
 			templateLayout,
 			gin.H{
 				"AppName":    p.AppName,
 				"Title":      title,
-				"Content":    "Book Page!!!!!",
+				"Content":    "Htmx Page!",
 				"Theme":      p.Theme,
 				"CmsName":    p.CmsName,
 				"CmsVersion": p.CmsVersion,
@@ -34,7 +34,7 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	})
 
 	// Route for handling htmx POST requests
-	r.POST("/book", func(c *gin.Context) {
+	r.POST("/htmx", func(c *gin.Context) {
 		// Respond with a simple HTML snippet
 		c.HTML(200, "partial.html", gin.H{
 			"Message": "This is dynamic content loaded via HTMX!",

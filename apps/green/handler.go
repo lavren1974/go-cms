@@ -4,15 +4,15 @@ import (
 	"html/template"
 	"log"
 
-	config "go-cms/utils/config"
-	render "go-cms/utils/render"
-	structs "go-cms/utils/structs"
+	config "github.com/lavren1974/go-cms/utils/config"
+	render "github.com/lavren1974/go-cms/utils/render"
+	structs "github.com/lavren1974/go-cms/utils/structs"
 
 	"github.com/gin-gonic/gin"
 
-	"go-cms/modules/examples/blog"
-	"go-cms/modules/examples/book"
-	"go-cms/modules/examples/todos"
+	"github.com/lavren1974/go-cms/modules/examples/blog"
+	"github.com/lavren1974/go-cms/modules/examples/book"
+	"github.com/lavren1974/go-cms/modules/examples/todos"
 )
 
 func loadConfig(appName string) (*config.GlobalConfig, *config.LocalConfig, error) {
