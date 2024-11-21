@@ -17,7 +17,7 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 		LayoutName:  p.LayoutName,
 	}
 
-	r.GET("/htmx", func(c *gin.Context) {
+	r.GET("/examples/htmx", func(c *gin.Context) {
 
 		title := p.AppName + " | Htmx"
 		render.Render(c,
@@ -34,7 +34,7 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	})
 
 	// Route for handling htmx POST requests
-	r.POST("/htmx", func(c *gin.Context) {
+	r.POST("/examples/htmx", func(c *gin.Context) {
 		// Respond with a simple HTML snippet
 		c.HTML(200, "partial.html", gin.H{
 			"Message": "This is dynamic content loaded via HTMX!",

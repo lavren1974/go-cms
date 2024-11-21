@@ -1,4 +1,4 @@
-package blog
+package examples
 
 import (
 	render "github.com/lavren1974/go-cms/utils/render"
@@ -14,7 +14,7 @@ import (
 //		}
 //	}
 
-const TemplateDir = "./modules/examples/blog/templates"
+const TemplateDir = "./modules/examples/examples/templates"
 
 func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 	// Load the blog templates
@@ -33,16 +33,16 @@ func RegisterRoutes(r *gin.Engine, p structs.ModuleParams) {
 		LayoutName:  p.LayoutName,
 	}
 
-	r.GET("/blog", func(c *gin.Context) {
+	r.GET("/examples", func(c *gin.Context) {
 
-		title := p.AppName + " | Blog"
+		title := p.AppName + " | Examples"
 		render.Render(c,
-			"blog.html",
+			"examples.html",
 			templateLayout,
 			gin.H{
 				"AppName":    p.AppName,
 				"Title":      title,
-				"Content":    "Blog Page",
+				"Content":    "Examples Page",
 				"Theme":      p.Theme,
 				"CmsName":    p.CmsName,
 				"CmsVersion": p.CmsVersion,

@@ -10,10 +10,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/lavren1974/go-cms/modules/examples/blog"
-	"github.com/lavren1974/go-cms/modules/examples/book"
+	"github.com/lavren1974/go-cms/modules/examples/examples"
 	"github.com/lavren1974/go-cms/modules/examples/htmx"
-	"github.com/lavren1974/go-cms/modules/examples/todos"
 )
 
 func loadConfig(appName string) (*config.GlobalConfig, *config.LocalConfig, error) {
@@ -41,9 +39,7 @@ func loadTemplates(appName string) (*template.Template, error) {
 	// -----------------------------------------MODULES ADD-----------------------------------------
 
 	var moduleDirs []string
-	moduleDirs = append(moduleDirs, book.TemplateDir)
-	moduleDirs = append(moduleDirs, blog.TemplateDir)
-	moduleDirs = append(moduleDirs, todos.TemplateDir)
+	moduleDirs = append(moduleDirs, examples.TemplateDir)
 	moduleDirs = append(moduleDirs, htmx.TemplateDir)
 
 	for _, dir := range moduleDirs {
@@ -102,9 +98,7 @@ func setupRouter(appName string, globalConfig *config.GlobalConfig, localConfig 
 
 	// -----------------------------------------MODULES ADD-----------------------------------------
 
-	blog.RegisterRoutes(r, moduleParams)
-	book.RegisterRoutes(r, moduleParams)
-	todos.RegisterRoutes(r, moduleParams)
+	examples.RegisterRoutes(r, moduleParams)
 	htmx.RegisterRoutes(r, moduleParams)
 
 	return r

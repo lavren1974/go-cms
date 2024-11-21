@@ -5,7 +5,7 @@
     <h1 class="display-4">{{ .Content }}</h1>
     <!-- Add a target div for HTMX content -->
     <div id="dynamic-content">
-      <button hx-post="/htmx" hx-target="#dynamic-content" hx-swap="outerHTML" class="btn btn-primary">
+      <button hx-post="/examples/htmx" hx-target="#dynamic-content" hx-swap="outerHTML" class="btn btn-primary">
         Click Me
       </button>
     </div>

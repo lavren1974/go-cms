@@ -1,58 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title}}</title>
-    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }}</title>
+    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon" />
     <!-- Bootstrap CSS -->
-    <!-- <link href="/static/vendor/bootstrap-5/5.3.3/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="/static/vendor/bootswatch-5/5.3.3/{{.Theme}}/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      href="/static/vendor/bootswatch-5/5.3.3/{{ .Theme }}/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Ensure the footer stays at the bottom */
+      html, body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
     <header class="bg-dark text-white p-4">
-        <div class="container">
-            <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                    <img src="/public/img/logo.png" alt="Logo" style="height: 50px;">
-                    <h1 class="ms-3">{{ .AppName }}</h1>
-                </div>
-                <nav>
-                    <ul class="nav">
-                        <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="/book">Book</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="/blog">Blog</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" href="/todos">Todos</a></li>
-                    </ul>
-                </nav>
-            </div>
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <!-- Make the logo clickable -->
+            <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+              <img src="/public/img/logo.png" alt="Logo" style="height: 50px" />
+              <h1 class="ms-3 mb-0">{{ .AppName }}</h1>
+            </a>
+          </div>
+          <nav>
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/examples">Examples</a>
+              </li>
+            </ul>
+          </nav>
         </div>
+      </div>
     </header>
- 
 
     <main class="container mt-4">
-        <div class="row">
-            <div class="col-md-2">
-                <h2>Column 1</h2>
-                <p>This is the content of column 1.</p>
-            </div>
-            <div class="col-md-8">
-                <h2>Column 2</h2>
-                {{ template "content" . }}
-            </div>
-            <div class="col-md-2">
-                <h2>Column 3</h2>
-                <p>This is the content of column 3.</p>
-            </div>
+      <div class="row">
+        <div class="col-md-2">
+          <h2>Column Left</h2>
         </div>
+        <div class="col-md-8">{{ template "content" . }}</div>
+        <div class="col-md-2">
+          <h2>Column Right</h2>
+        </div>
+      </div>
     </main>
 
     <footer class="bg-dark text-white p-4 mt-4">
-        <div class="container">
-            <p> 2024 &copy; {{ .CmsName }} - {{ .CmsVersion }}</p>
-        </div>
+      <div class="container">
+        <p>2024 &copy; {{ .CmsName }} - {{ .CmsVersion }}</p>
+      </div>
     </footer>
 
     <script src="/static/vendor/bootstrap-5/5.3.3/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script src="/static/vendor/htmx-2/2.0.3/htmx.min.js"></script>
+  </body>
 </html>
