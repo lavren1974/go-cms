@@ -1,0 +1,57 @@
+{{ define "content" }}
+<div class="container">
+  <h1 class="text-center mb-4">To-Do List</h1>
+
+  <!-- Add Task Form -->
+  <form
+    class="d-flex mb-4"
+    hx-post="/examples/htmx/todo/add"
+    hx-target="#todo-list"
+    hx-swap="beforeend"
+    hx-on::after-request="this.reset()" 
+  >
+    <input
+      type="text"
+      name="task"
+      class="form-control me-2"
+      placeholder="Add a new task"
+      required
+    />
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+
+  <!-- To-Do List -->
+  <ul id="todo-list" class="list-group">
+    {{ range $index, $task := .TodoList }}
+    <li
+      id="item-{{ $index }}"
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      {{ $task }}
+      <div>
+        <button
+          class="btn btn-danger btn-sm"
+          hx-post="/examples/htmx/todo/delete"
+          hx-include="[name=index]"
+          hx-target="#item-{{ $index }}"
+          hx-swap="outerHTML"
+        >
+          Delete
+        </button>
+        <input type="hidden" name="index" value="{{ $index }}" />
+      </div>
+    </li>
+    {{ end }}
+  </ul>
+
+  <!-- Clear All Button -->
+  <button
+    class="btn btn-warning mt-3"
+    hx-post="/examples/htmx/todo/clear"
+    hx-target="#todo-list"
+    hx-swap="innerHTML"
+  >
+    Clear All
+  </button>
+</div>
+{{ end }}

@@ -1,0 +1,12 @@
+<li id="item-{{ .Index }}" class="list-group-item d-flex justify-content-between align-items-center">
+    {{ .Task }}
+    <div>
+        <button class="btn btn-danger btn-sm" hx-post="/examples/htmx/todo/delete" 
+                hx-include="[name=index]" 
+                hx-target="#item-{{ .Index }}" 
+                hx-swap="outerHTML">
+            Delete
+        </button>
+        <input type="hidden" name="index" value="{{ .Index }}">
+    </div>
+</li>
