@@ -53,3 +53,12 @@ https://gobyexample.com/
 ## content
 
 https://www.freecodecamp.org/news/real-time-chat-with-go-fiber-htmx/
+
+
+## Air
+
+go install github.com/air-verse/air@latest
+
+air init
+
+air
